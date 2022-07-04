@@ -1,0 +1,53 @@
+{
+  "name": "@istanbul/app",
+  "version": "0.0.2",
+  "description": "App package of istanbul framework",
+  "homepage": "https://github.com/ssibrahimbas/istanbul#readme",
+  "keywords": [
+    "istanbul",
+    "app",
+    "framework",
+    "root"
+  ],
+  "author": "Sami Salih İBRAHİMBAŞ",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssibrahimbas/istanbul.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ssibrahimbas/istanbul/issues"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "test": "jest --watchAll --no-cache",
+    "clear": "del-cli ./build/*",
+    "build": "npm run clear && tsc"
+  },
+  "dependencies": {
+    "@istanbul/events": "^0.0.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^28.1.3",
+    "@types/node": "^18.0.0",
+    "jest": "^28.1.1",
+    "ts-jest": "^28.0.5",
+    "typescript": "^4.7.4"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "@/(.*)": "<rootDir>/$1",
+      "~/(.*)": "<rootDir>/$1"
+    }
+  }
+}
