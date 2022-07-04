@@ -1,8 +1,8 @@
 {
   "name": "@istanbul/app",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "App package of istanbul framework",
-  "homepage": "https://github.com/ssibrahimbas/istanbul#readme",
+  "homepage": "https://github.com/istanbulnode/app#readme",
   "keywords": [
     "istanbul",
     "app",
@@ -13,10 +13,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ssibrahimbas/istanbul.git"
+    "url": "git+https://github.com/istanbulnode/app.git"
   },
   "bugs": {
-    "url": "https://github.com/ssibrahimbas/istanbul/issues"
+    "url": "https://github.com/istanbulnode/app/issues"
   },
   "directories": {
     "lib": "lib",
