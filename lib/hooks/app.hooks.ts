@@ -1,7 +1,12 @@
 import { Module } from "../modules";
 import { App } from "../types/app.type";
 import { AppConfig } from "../config";
-import { CorePlugin, Plugin } from "../plugins";
+import {
+  CorePlugin,
+  CorePluginCreator,
+  isPluginCreator,
+  Plugin,
+} from "../plugins";
 import { warn } from "../warning/warning";
 import { appCreatedEvent, appStartedEvent } from "../events/app.events";
 
@@ -29,13 +34,19 @@ export const createApp = <T extends AppConfig = AppConfig>(
       }
       return this;
     },
-    register(plugin: CorePlugin, ...options): App<T> {
-      if (corePlugins.has(plugin)) {
-        !this.config.production &&
-          warn(`Plugin ${plugin.name} is already registered`);
+    register(plugin: CorePlugin | CorePluginCreator, ...options): App<T> {
+      let instance: CorePlugin;
+      if (isPluginCreator(plugin)) {
+        instance = plugin.build();
       } else {
-        corePlugins.add(plugin);
-        plugin.install(this, ...options);
+        instance = plugin;
+      }
+      if (corePlugins.has(instance)) {
+        !this.config.production &&
+          warn(`Plugin ${instance.name} is already registered`);
+      } else {
+        corePlugins.add(instance);
+        instance.install(this, ...options);
       }
       return this;
     },

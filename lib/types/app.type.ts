@@ -1,5 +1,5 @@
 import { AppConfig } from "../config";
-import { CorePlugin, Plugin } from "../plugins";
+import { CorePlugin, CorePluginCreator, Plugin } from "../plugins";
 import { Module } from "../modules";
 
 export interface App<T extends AppConfig = AppConfig> {
@@ -7,6 +7,6 @@ export interface App<T extends AppConfig = AppConfig> {
   config: T;
   module?: Module;
   use(plugin: Plugin, ...options: any[]): this;
-  register(plugin: CorePlugin, ...options: any[]): this;
+  register(plugin: CorePlugin | CorePluginCreator, ...options: any[]): this;
   start(): void;
 }

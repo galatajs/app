@@ -1,5 +1,13 @@
 import { App } from "../types/app.type";
 
+export type CorePluginCreator = {
+  build(): CorePlugin;
+};
+
+export function isPluginCreator(plugin: any): plugin is CorePluginCreator {
+  return typeof plugin.build === "function";
+}
+
 export interface CorePlugin {
   name: string;
   version: string;
