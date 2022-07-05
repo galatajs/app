@@ -1,6 +1,6 @@
 {
   "name": "@istanbul/app",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "App package of istanbul framework",
   "homepage": "https://github.com/istanbulnode/app#readme",
   "keywords": [
@@ -29,7 +29,7 @@
   ],
   "scripts": {
     "test": "jest --watchAll --no-cache",
-    "clear": "del-cli ./build/*",
+    "clear": "del-cli ./dist/*",
     "build": "npm run clear && tsc"
   },
   "dependencies": {
