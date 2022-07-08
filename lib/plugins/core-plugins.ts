@@ -11,7 +11,7 @@ export function isPluginCreator(plugin: any): plugin is CorePluginCreator {
 export interface CorePlugin {
   name: string;
   version: string;
-  install: (app: App, ...options: any[]) => void;
+  install: (app: App, ...options: any[]) => void | Promise<void>;
   onAppStarted(hook: (app: App) => void): void;
 }
 

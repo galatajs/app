@@ -16,7 +16,7 @@ it("create a plugin and install it", () => {
   expect(installed).toBe(true);
 });
 
-it("create a core plugin and install it", () => {
+it("create a core plugin and install it", async () => {
   let installed = false;
   const plugin: CorePlugin = createCorePlugin({
     name: "test",
@@ -27,10 +27,12 @@ it("create a core plugin and install it", () => {
   });
   const app = createApp();
   app.register(plugin);
+  expect(installed).toBe(false);
+  await app.start();
   expect(installed).toBe(true);
 });
 
-it("create a core plugin and start it", () => {
+it("create a core plugin and start it", async () => {
   let started = false;
   const plugin: CorePlugin = createCorePlugin({
     name: "test",
@@ -42,6 +44,30 @@ it("create a core plugin and start it", () => {
   });
   const app = createApp();
   app.register(plugin);
-  app.start();
+  await app.start();
   expect(started).toBe(true);
+});
+
+it("create a async module and try install", async () => {
+  let time = new Date().getTime();
+  let finishTime = 0;
+  const app = createApp();
+  const plugin: CorePlugin = createCorePlugin({
+    name: "test",
+    version: "1.0.0",
+    install: async (app: App, ...options: any[]): Promise<void> => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          finishTime = new Date().getTime();
+          resolve();
+        }, 120);
+      });
+    },
+  });
+  app.register(plugin);
+  await app.start();
+  expect(finishTime - time).toBeGreaterThan(100);
+  expect(finishTime).toBeGreaterThan(100);
+  expect(time === 0).toBe(false);
+  expect(finishTime === 0).toBe(false);
 });

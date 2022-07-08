@@ -7,6 +7,11 @@ export interface App<T extends AppConfig = AppConfig> {
   config: T;
   module?: Module;
   use(plugin: Plugin, ...options: any[]): this;
+  installAllModules(): Promise<void>;
   register(plugin: CorePlugin | CorePluginCreator, ...options: any[]): this;
-  start(): void;
+  start(): Promise<void>;
+}
+
+export function isPromise<T>(func: any): func is Promise<T> {
+  return func.constructor.name === "AsyncFunction";
 }
