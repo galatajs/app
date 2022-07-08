@@ -9,6 +9,7 @@ import {
 } from "../plugins";
 import { warn } from "../warning/warning";
 import { appCreatedEvent, appStartedEvent } from "../events/app.events";
+import { isPromise } from "util/types";
 
 const plugins = new Set<Plugin>();
 const corePlugins = new Set<CorePlugin>();
@@ -46,15 +47,24 @@ export const createApp = <T extends AppConfig = AppConfig>(
           warn(`Plugin ${instance.name} is already registered`);
       } else {
         corePlugins.add(instance);
-        instance.install(this, ...options);
       }
       return this;
     },
-    start(): void {
+    async installAllModules(): Promise<void> {
+      const stack: Array<Promise<any>> = [];
+      corePlugins.forEach((plugin) => {
+        const install: Promise<void> | void = plugin.install(this);
+        if (isPromise(install)) {
+          stack.push(install);
+        }
+      });
+      await Promise.all(stack);
+    },
+    async start(): Promise<void> {
       if (this.module) {
         this.module.install(this, modules);
       }
-      !this.config.production && warn(`App is running in production mode.`);
+      await this.installAllModules();
       appStartedEvent.publish(this);
     },
   };
