@@ -1,6 +1,6 @@
 import { AppConfig } from "../config";
 import { CorePlugin, CorePluginCreator, Plugin } from "../plugins";
-import { Module } from "../modules";
+import { Module } from "./module.type";
 
 export interface App<T extends AppConfig = AppConfig> {
   version: string;
@@ -12,6 +12,6 @@ export interface App<T extends AppConfig = AppConfig> {
   start(): Promise<void>;
 }
 
-export function isPromise<T>(func: any): func is Promise<T> {
-  return func.constructor.name === "AsyncFunction";
-}
+export type AppCreator = <T extends AppConfig = AppConfig>(
+  rootModule?: Module
+) => App<T>;
