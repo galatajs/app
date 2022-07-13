@@ -3,7 +3,7 @@
 
 <p align="center">
 <br>
-<img src="https://avatars.githubusercontent.com/u/76786120?v=4" width="128" height="128" style="border-radius: 50px; margin-right: 10px;" />
+<img src="https://avatars.githubusercontent.com/u/108695351?s=200&v=4" width="128" height="128">
 </p>
 <h3 align="center">@istanbul/app</h3>
 <p align="center">
