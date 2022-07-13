@@ -50,48 +50,91 @@ app.start();
 
 ### Module System Usage
 
-create a main module
+`istanbul` supports module-based system such as Angular and NestJS. -However, it does not make mandatory, it behaves as you wish, friendly ;)-
+
+If you want to use the module-based system, which is the solution we recommend, although not mandatory, you can follow the steps below.
+
+#### create a main module
+
+`istanbul` processes module-based system such as NestJS and Angular with the inductive method in the background. So it needs the main module for the starting point.
 
 ```typescript
-import {createModule} from "@istanbul/app";
+// src/main.ts
+import { createModule } from "@istanbul/app";
 
-export const mainModule = createModule("mainModule");
-mainModule.onAppStarted(() => {
-    console.log("App started");
-})
+export const mainModule = createModule("mainModule", {
+    imports: [
+        // your modules
+    ]
+});
 ```
 
-Register main module to app
+#### Register main module to app
+
+We have to do this for your `istanbul` project to recognize the main module. Just like you need the internet to google something.
 
 ```typescript
-import {createApp} from "@istanbul/app";
-import {mainModule} from "./main.module";
+import { createApp } from "@istanbul/app";
+import { mainModule } from "./src/main";
 
 const app = createApp(mainModule);
 app.start();
 ```
 
-### Modules With Dependencies
+If you've read the doc from the very beginning, you've noticed that `createApp` works in different 2 ways. If you take a main module as a parameter and don't give it a module, it will act as if you are not using a module-based system.
 
-create modules
+#### Modules With Dependencies
 
-```typescript
-import {createModule} from "@istanbul/app";
-
-const childModule = createModule("childModule");
-
-export const mainModule = createModule("mainModule", [childModule]);
-```
-
-Register main module to app
+Let's face it, no one is going to go into production using just the main module. Adding your own modules is pretty easy. Let's try!
 
 ```typescript
-import {createApp} from "@istanbul/app";
-import {mainModule} from "./main.module";
+// src/modules/product/product.service.ts
 
-const app = createApp(mainModule);
-app.start();
+export class ProductService {
+    constructor(){}
+
+    getAll = () : string => {
+        return 'Hello world!';
+    }
+}
 ```
+
+```typescript
+// src/modules/product/product.module.ts
+import { createModule } from "@istanbul/app";
+import { ProductService } from "./product.service";
+
+export const productModule = createModule('product', {
+    providers: [ProductService],
+    exports: [ProductService]
+});
+```
+
+A little info while yo're here.
+
+> provider is the equivalent of all the dependencies you will use in the module. For example, if your `ProductController` is dependent on `ProductService`, you should provide it here.
+>
+> export exists for any provider in this module to be used in an external module. For example, if you want to use `ProductService` in an external module, you should provide and export it.
+> 
+> `istanbul` itself manages the singleton structure for you!
+
+#### Register your module
+
+Now that you've created your module, you can register it to the app.
+
+```typescript
+// src/main.ts
+import { createModule } from "@istanbul/app";
+import { productModule } from "./src/modules/product";
+
+export const mainModule = createModule("mainModule", {
+    imports: [
+        productModule
+    ]
+});
+```
+
+that's it!
 
 ### Create your own plugin
 
