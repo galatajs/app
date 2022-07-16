@@ -14,5 +14,6 @@ export interface CorePlugin {
 export type CreateCorePluginParams = {
   name: string;
   version: string;
+  forceWait?: boolean;
   install: (app: App, ...options: any[]) => void;
 };

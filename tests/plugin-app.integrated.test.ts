@@ -56,4 +56,33 @@ describe("App & Plugin integrated testing", () => {
     expect(time === 0).toBe(false);
     expect(finishTime === 0).toBe(false);
   });
+
+  it("create a async core plugin with force wait", async () => {
+    let lastCalled = "";
+    const plugin: CorePlugin = createCorePlugin({
+      name: "test",
+      version: "1.0.0",
+      forceWait: true,
+      async install(app: App, ...options: any[]) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            lastCalled = "async";
+            resolve();
+          }, 1000);
+        });
+      },
+    });
+    const plugin2: CorePlugin = createCorePlugin({
+      name: "test2",
+      version: "1.0.0",
+      install(app: App, ...options: any[]) {
+        lastCalled = "sync";
+      },
+    });
+    const app = createApp();
+    app.register(plugin);
+    app.register(plugin2);
+    await app.start();
+    expect(lastCalled).toBe("sync");
+  });
 });

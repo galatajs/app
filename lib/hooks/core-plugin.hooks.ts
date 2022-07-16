@@ -7,5 +7,6 @@ export const createCorePlugin = (
     name: params.name,
     version: params.version,
     install: params.install,
+    forceWait: params.forceWait,
   };
 };

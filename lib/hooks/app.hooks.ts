@@ -48,10 +48,14 @@ export const createApp: AppCreator = <T extends AppConfig = AppConfig>(
     },
     async installAllModules(): Promise<void> {
       const stack: Array<Promise<any>> = [];
-      corePlugins.forEach((plugin) => {
-        const install: Promise<void> | void = plugin.install(this);
-        if (isPromise(install)) stack.push(install);
-      });
+      for (const plugin of corePlugins) {
+        if (plugin.forceWait) {
+          await plugin.install(this);
+        } else {
+          const install: Promise<void> | void = plugin.install(this);
+          if (isPromise(install)) stack.push(install);
+        }
+      }
       await Promise.all(stack);
     },
     async start(): Promise<void> {
