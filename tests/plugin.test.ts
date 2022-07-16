@@ -23,6 +23,5 @@ describe("Plugin unit testing", () => {
     expect(plugin.name).toBe("test");
     expect(plugin.version).toBe("1.0.0");
     expect(plugin.install).toBeDefined();
-    expect(plugin.onAppStarted).toBeDefined();
   });
 });

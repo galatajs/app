@@ -6,7 +6,7 @@ export interface Module {
   dependencies: Map<string, Module>;
   exports: Map<string, ModuleProvider>;
   installed: boolean;
-  onAppStarted: (hook: (app: App) => void) => void;
+  onAppStarted: (hook: () => void) => void;
   install: (app: App, modules: Map<string, Module>) => void;
 }
 

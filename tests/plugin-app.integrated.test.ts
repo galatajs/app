@@ -33,22 +33,6 @@ describe("App & Plugin integrated testing", () => {
     expect(installed).toBe(true);
   });
 
-  it("create a core plugin and start it", async () => {
-    let started = false;
-    const plugin: CorePlugin = createCorePlugin({
-      name: "test",
-      version: "1.0.0",
-      install(app: App, ...options: any[]) {},
-    });
-    plugin.onAppStarted(() => {
-      started = true;
-    });
-    const app = createApp();
-    app.register(plugin);
-    await app.start();
-    expect(started).toBe(true);
-  });
-
   it("create a async module and try install", async () => {
     let time = new Date().getTime();
     let finishTime = 0;
