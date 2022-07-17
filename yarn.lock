@@ -294,10 +294,10 @@
   resolved "https://registry.yarnpkg.com/@istanbul/events/-/events-0.0.4.tgz#a388999ddec7e340741116e5bf145603176e7013"
   integrity sha512-B/ebDpFNvb62SnAX3m2ijVWSS3Fulp74jF2SJza0KGyjDUlPjximT2iUjBbSHZeEPWMcZ7NTCjidEctFL9oIKQ==
 
-"@istanbul/inject@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@istanbul/inject/-/inject-0.0.2.tgz#0051a39bf09d5a3156bbebb2905aeb48bfbc85db"
-  integrity sha512-3aFKP9SJ8qPteS6KMEzvFDY7O4+hKYYag9udeMHFu4Q2RkT4AglIgIO+lqrxeVo301ejLTLehgXCuj5GxGY3yw==
+"@istanbul/inject@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@istanbul/inject/-/inject-0.0.4.tgz#d93280deb30e08861b20e0672e5b3be5d045e0b6"
+  integrity sha512-pyRnssamRMoEQedpxXT7jSOIRLPfeeb5S4SFFvCltNMmAWzQIFCnZGCVOLYyisRq+x/WZJw7VSJtli6iMmUFzQ==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
