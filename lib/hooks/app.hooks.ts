@@ -1,4 +1,4 @@
-import { ReadonlyMap } from "@istanbul/core";
+import { createInjector } from "@istanbul/inject";
 import { Module } from "../types/module.type";
 import { App, AppCreator } from "../types/app.type";
 import { AppConfig } from "../config";
@@ -22,6 +22,7 @@ export const createApp: AppCreator = <T extends AppConfig = AppConfig>(
     config: {
       production: __PROD__,
     } as T,
+    store: createInjector<any>(),
     use(plugin: Plugin, ...options): App<T> {
       if (!plugin.multiple && plugins.has(plugin)) {
         !this.config.production &&
