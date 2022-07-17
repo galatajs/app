@@ -38,7 +38,7 @@ describe("App & Plugin integrated testing", () => {
     let finishTime = 0;
     const app = createApp();
     const plugin: CorePlugin = createCorePlugin({
-      name: "test",
+      name: "test-time",
       version: "1.0.0",
       install: async (app: App, ...options: any[]): Promise<void> => {
         return new Promise((resolve, reject) => {
@@ -60,7 +60,7 @@ describe("App & Plugin integrated testing", () => {
   it("create a async core plugin with force wait", async () => {
     let lastCalled = "";
     const plugin: CorePlugin = createCorePlugin({
-      name: "test",
+      name: "test-sync",
       version: "1.0.0",
       forceWait: true,
       async install(app: App, ...options: any[]) {

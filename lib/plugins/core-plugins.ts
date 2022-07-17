@@ -8,7 +8,10 @@ export interface CorePlugin {
   name: string;
   version: string;
   forceWait?: boolean;
-  install: (app: App, ...options: any[]) => void | Promise<void>;
+  install: (
+    app: App,
+    corePlugins?: Map<string, CorePlugin>
+  ) => void | Promise<void>;
 }
 
 export type CreateCorePluginParams = {

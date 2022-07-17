@@ -1,6 +1,6 @@
 {
   "name": "@istanbul/app",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "App package of istanbul framework",
   "homepage": "https://github.com/istanbulnode/app#readme",
   "keywords": [
@@ -33,6 +33,7 @@
     "build": "npm run clear && tsc"
   },
   "dependencies": {
+    "@istanbul/core": "^0.0.7",
     "@istanbul/events": "^0.0.4"
   },
   "devDependencies": {

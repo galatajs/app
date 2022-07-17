@@ -1,3 +1,4 @@
+import { ReadonlyMap } from "@istanbul/core";
 import { Module } from "../types/module.type";
 import { App, AppCreator } from "../types/app.type";
 import { AppConfig } from "../config";
@@ -8,7 +9,7 @@ import { isPromise } from "util/types";
 import { isPluginCreator } from "../types/util.type";
 
 const plugins = new Set<Plugin>();
-const corePlugins = new Set<CorePlugin>();
+const corePlugins = new Map<string, CorePlugin>();
 const modules: Map<string, Module> = new Map();
 
 export const createApp: AppCreator = <T extends AppConfig = AppConfig>(
@@ -38,21 +39,24 @@ export const createApp: AppCreator = <T extends AppConfig = AppConfig>(
       } else {
         instance = plugin;
       }
-      if (corePlugins.has(instance)) {
+      if (corePlugins.has(instance.name)) {
         !this.config.production &&
           warn(`Plugin ${instance.name} is already registered`);
       } else {
-        corePlugins.add(instance);
+        corePlugins.set(instance.name, instance);
       }
       return this;
     },
     async installAllModules(): Promise<void> {
       const stack: Array<Promise<any>> = [];
-      for (const plugin of corePlugins) {
+      for (const plugin of corePlugins.values()) {
         if (plugin.forceWait) {
-          await plugin.install(this);
+          await plugin.install(this, corePlugins);
         } else {
-          const install: Promise<void> | void = plugin.install(this);
+          const install: Promise<void> | void = plugin.install(
+            this,
+            corePlugins
+          );
           if (isPromise(install)) stack.push(install);
         }
       }

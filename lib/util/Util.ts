@@ -6,4 +6,12 @@ export const Util = {
       })
       .replace(/\s+/g, "");
   },
+  transformToReadonly: <T extends object>(data: T): T => {
+    const obj: ProxyHandler<T> = {
+      set(target: T, prop: string | symbol, receiver: any): boolean {
+        throw new Error("Cannot set property on readonly object");
+      },
+    };
+    return new Proxy<T>(data, obj);
+  },
 };

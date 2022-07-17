@@ -22,3 +22,4 @@ export * from "./plugins";
 export * from "./config";
 export * from "./types/app.type";
 export * from "./warning/warning";
+export * from "./util/Util";
