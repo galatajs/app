@@ -1,9 +1,11 @@
 import {
+  isModule,
   Module,
   ModuleCreator,
   ModuleParams,
   ModuleProvider,
   ModuleProviderParams,
+  ModuleRegisterer,
 } from "../types/module.type";
 import { App } from "../types/app.type";
 import { appStartedEvent } from "../events/app.events";
@@ -15,10 +17,15 @@ export const createModule: ModuleCreator = (
   params: ModuleParams = {}
 ): Module => {
   const _dependencies = new Map<string, Module>();
+  const registers = new Array<ModuleRegisterer>();
   const providers = new Map<string, ModuleProvider>();
   const exports: string[] = [];
   params.imports?.forEach((dependency) => {
-    _dependencies.set(Util.toCamelCase(dependency.name), dependency);
+    if (isModule(dependency)) {
+      _dependencies.set(Util.toCamelCase(dependency.name), dependency);
+    } else {
+      registers.push(dependency);
+    }
   });
   params.providers?.forEach((provider) => {
     providers.set(Util.toCamelCase(provider.name), provider);
@@ -26,6 +33,13 @@ export const createModule: ModuleCreator = (
   params.exports?.forEach((exportKey) => {
     exports.push(Util.toCamelCase(exportKey.name));
   });
+
+  const installAllRegisters = () => {
+    registers.forEach((register) => {
+      register.install();
+    });
+  };
+
   return {
     name: name,
     dependencies: _dependencies,
@@ -35,6 +49,7 @@ export const createModule: ModuleCreator = (
       appStartedEvent.addListener(hook);
     },
     install(app: App, modules: Map<string, Module>) {
+      installAllRegisters();
       if (!this.installed) {
         this.installed = true;
         const _providers: ModuleProviderParams = {};

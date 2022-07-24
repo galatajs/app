@@ -1,4 +1,4 @@
-import { createApp, createModule, Module } from "../lib";
+import { createApp, createModule, Module, ModuleRegisterer } from "../lib";
 
 describe("App & Module integrated testing", () => {
   it("create a module and install it", () => {
@@ -68,5 +68,22 @@ describe("App & Module integrated testing", () => {
     });
     const app = createApp(baseModule);
     app.start();
+  });
+
+  it("create product module with module registerer", () => {
+    let count: number = 0;
+    const registerer = (): ModuleRegisterer => {
+      return {
+        install() {
+          count++;
+        },
+      };
+    };
+    const productModule = createModule("product", {
+      imports: [registerer()],
+    });
+    const app = createApp(productModule);
+    app.start();
+    expect(count).toBe(1);
   });
 });
