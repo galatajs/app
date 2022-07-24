@@ -36,7 +36,7 @@ export const createModule: ModuleCreator = (
 
   const installAllRegisters = () => {
     registers.forEach((register) => {
-      register.install();
+      if (register.install) register.install();
     });
   };
 

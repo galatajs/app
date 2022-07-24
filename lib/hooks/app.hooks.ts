@@ -64,8 +64,8 @@ export const createApp: AppCreator = <T extends AppConfig = AppConfig>(
       await Promise.all(stack);
     },
     async start(): Promise<void> {
-      if (this.module) this.module.install(this, modules);
       await this.installAllModules();
+      if (this.module) this.module.install(this, modules);
       appStartedEvent.publish(this);
     },
   };

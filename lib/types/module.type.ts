@@ -19,7 +19,7 @@ export type ModuleProviderObject<T> = {
 
 export type ModuleRegisterer = {
   key: string;
-  install: () => void;
+  install?: () => void;
 };
 
 export type ModuleProvider =
