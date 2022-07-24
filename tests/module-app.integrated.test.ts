@@ -74,6 +74,7 @@ describe("App & Module integrated testing", () => {
     let count: number = 0;
     const registerer = (): ModuleRegisterer => {
       return {
+        key: "test",
         install() {
           count++;
         },

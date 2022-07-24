@@ -17,14 +17,14 @@ export const createModule: ModuleCreator = (
   params: ModuleParams = {}
 ): Module => {
   const _dependencies = new Map<string, Module>();
-  const registers = new Array<ModuleRegisterer>();
+  const registers = new Map<string, ModuleRegisterer>();
   const providers = new Map<string, ModuleProvider>();
   const exports: string[] = [];
   params.imports?.forEach((dependency) => {
     if (isModule(dependency)) {
       _dependencies.set(Util.toCamelCase(dependency.name), dependency);
     } else {
-      registers.push(dependency);
+      registers.set(dependency.key, dependency);
     }
   });
   params.providers?.forEach((provider) => {
@@ -58,6 +58,12 @@ export const createModule: ModuleCreator = (
             _providers[Util.toCamelCase(key)] = value;
           }
         });
+        for (const key of registers.keys()) {
+          const injected = app.store.inject(key, true);
+          if (injected) {
+            _providers[Util.toCamelCase(key)] = injected;
+          }
+        }
         for (const [key, creator] of providers.entries()) {
           let _key = key;
           let _value;
