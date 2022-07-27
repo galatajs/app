@@ -1,15 +1,15 @@
 import { createApp, createModule, Module, ModuleRegisterer } from "../lib";
 
 describe("App & Module integrated testing", () => {
-  it("create a module and install it", () => {
+  it("create a module and install it", async () => {
     const module: Module = createModule("test");
     const app = createApp(module);
     expect(module.installed).toBe(false);
-    app.start();
+    await app.start();
     expect(module.installed).toBe(true);
   });
 
-  it("create product module with providers and create category module with dependency and check install count", () => {
+  it("create product module with providers and create category module with dependency and check install count", async () => {
     const productModule = createModule("product", {
       providers: [{ name: "test", value: "test" }],
     });
@@ -19,7 +19,7 @@ describe("App & Module integrated testing", () => {
     const app = createApp(categoryModule);
     expect(productModule.installed).toBe(false);
     expect(categoryModule.installed).toBe(false);
-    app.start();
+    await app.start();
     expect(productModule.installed).toBe(true);
     expect(categoryModule.installed).toBe(true);
   });
@@ -70,7 +70,7 @@ describe("App & Module integrated testing", () => {
     app.start();
   });
 
-  it("create product module with module registerer", () => {
+  it("create product module with module registerer", async () => {
     let count: number = 0;
     const registerer = (): ModuleRegisterer => {
       return {
@@ -84,7 +84,7 @@ describe("App & Module integrated testing", () => {
       imports: [registerer()],
     });
     const app = createApp(productModule);
-    app.start();
+    await app.start();
     expect(count).toBe(1);
   });
 });
