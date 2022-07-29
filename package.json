@@ -1,6 +1,6 @@
 {
   "name": "@istanbul/app",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "App package of istanbul framework",
   "homepage": "https://github.com/istanbulnode/app#readme",
   "keywords": [
@@ -28,7 +28,7 @@
     "dist/**/*"
   ],
   "scripts": {
-    "test": "jest --watchAll --no-cache",
+    "test": "yarn build && node --test ./tests",
     "clear": "del-cli ./dist/*",
     "build": "npm run clear && tsc"
   },
@@ -38,18 +38,7 @@
     "@istanbul/inject": "^0.0.4"
   },
   "devDependencies": {
-    "@types/jest": "^28.1.3",
     "@types/node": "^18.0.0",
-    "jest": "^28.1.1",
-    "ts-jest": "^28.0.5",
     "typescript": "^4.7.4"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "moduleNameMapper": {
-      "@/(.*)": "<rootDir>/$1",
-      "~/(.*)": "<rootDir>/$1"
-    }
   }
 }

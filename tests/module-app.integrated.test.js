@@ -1,12 +1,14 @@
-import { createApp, createModule, Module, ModuleRegisterer } from "../lib";
+const { describe, it } = require("node:test");
+const assert = require("node:assert");
+const { createApp, createModule } = require("../dist");
 
 describe("App & Module integrated testing", () => {
   it("create a module and install it", async () => {
-    const module: Module = createModule("test");
+    const module = createModule("test");
     const app = createApp(module);
-    expect(module.installed).toBe(false);
+    assert.strictEqual(module.installed, false);
     await app.start();
-    expect(module.installed).toBe(true);
+    assert.strictEqual(module.installed, true);
   });
 
   it("create product module with providers and create category module with dependency and check install count", async () => {
@@ -17,11 +19,11 @@ describe("App & Module integrated testing", () => {
       imports: [productModule],
     });
     const app = createApp(categoryModule);
-    expect(productModule.installed).toBe(false);
-    expect(categoryModule.installed).toBe(false);
+    assert.strictEqual(productModule.installed, false);
+    assert.strictEqual(categoryModule.installed, false);
     await app.start();
-    expect(productModule.installed).toBe(true);
-    expect(categoryModule.installed).toBe(true);
+    assert.strictEqual(productModule.installed, true);
+    assert.strictEqual(categoryModule.installed, true);
   });
 
   it("create product module with providers and create category module with dependency and check dependency params is getting", () => {
@@ -30,8 +32,8 @@ describe("App & Module integrated testing", () => {
       providers: [test],
       exports: [test],
     });
-    const createCategoryService = (params: any) => {
-      expect(params.test).toBe("test");
+    const createCategoryService = (params) => {
+      assert.strictEqual(params.test, "test");
     };
     const categoryModule = createModule("category", {
       imports: [productModule],
@@ -48,7 +50,7 @@ describe("App & Module integrated testing", () => {
     class ProductService {
       constructor() {}
 
-      test = (): string => {
+      test = () => {
         return "test";
       };
     }
@@ -56,8 +58,8 @@ describe("App & Module integrated testing", () => {
       providers: [ProductService],
       exports: [ProductService],
     });
-    const createCategoryService = ({ productService }: any) => {
-      expect(productService.test()).toBe("test");
+    const createCategoryService = ({ productService }) => {
+      assert.strictEqual(productService.test(), "test");
     };
     const categoryModule = createModule("category", {
       imports: [productModule],
@@ -71,8 +73,8 @@ describe("App & Module integrated testing", () => {
   });
 
   it("create product module with module registerer", async () => {
-    let count: number = 0;
-    const registerer = (): ModuleRegisterer => {
+    let count = 0;
+    const registerer = () => {
       return {
         key: "test",
         install() {
@@ -85,6 +87,6 @@ describe("App & Module integrated testing", () => {
     });
     const app = createApp(productModule);
     await app.start();
-    expect(count).toBe(1);
+    assert.strictEqual(count, 1);
   });
 });
