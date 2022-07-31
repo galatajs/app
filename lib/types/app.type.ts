@@ -12,6 +12,7 @@ export interface App<T extends AppConfig = AppConfig> {
   installAllModules(): Promise<void>;
   register(plugin: CorePlugin | CorePluginCreator, ...options: any[]): this;
   start(): Promise<void>;
+  enableShutdownEvents(): void;
 }
 
 export type AppCreator = <T extends AppConfig = AppConfig>(

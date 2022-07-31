@@ -85,4 +85,21 @@ describe("App & Plugin integrated testing", () => {
     await app.start();
     assert.strictEqual(lastCalled, "sync");
   });
+
+  it("create app with onAppStarted hook", async () => {
+    let res = 1;
+    class MyPlugin {
+      name = "my-plugin";
+      multiple = false;
+
+      onAppStarted() {
+        res = 2;
+      }
+      install(app) {}
+    }
+    const app = createApp();
+    app.use(MyPlugin);
+    await app.start();
+    assert.strictEqual(res, 2);
+  });
 });

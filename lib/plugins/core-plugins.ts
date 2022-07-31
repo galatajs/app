@@ -26,3 +26,11 @@ export type CreateCorePluginParams = {
   forceWait?: boolean;
   install: (app: App, corePlugins: Map<string, CorePlugin>) => void;
 };
+
+export interface Closeable {
+  close(): void;
+}
+
+export function isCloseable(obj: any): obj is Closeable {
+  return obj && obj.close;
+}

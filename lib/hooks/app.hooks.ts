@@ -6,7 +6,9 @@ import { CorePlugin, CorePluginCreator, Plugin } from "../plugins";
 import { warn } from "../warning/warning";
 import { appCreatedEvent, appStartedEvent } from "../events/app.events";
 import { isPromise } from "util/types";
-import { isPluginCreator } from "../types/util.type";
+import { isConstructor, isPluginCreator } from "../types/util.type";
+import { listenPlatformEvents } from "./events.hooks";
+import { isOnAppStarted } from "../events/module.events";
 
 const plugins = new Set<Plugin>();
 const corePlugins = new Map<string, CorePlugin>();
@@ -24,12 +26,18 @@ export const createApp: AppCreator = <T extends AppConfig = AppConfig>(
     } as T,
     store: createInjector<any>(),
     use(plugin: Plugin, ...options): App<T> {
+      if (isConstructor(plugin)) {
+        plugin = new plugin();
+      }
       if (!plugin.multiple && plugins.has(plugin)) {
         !this.config.production &&
           warn(`Plugin ${plugin.name} is already registered`);
       } else {
         plugins.add(plugin);
         plugin.install(this, ...options);
+        if (isOnAppStarted(plugin)) {
+          appStartedEvent.addListener(plugin.onAppStarted);
+        }
       }
       return this;
     },
@@ -65,8 +73,11 @@ export const createApp: AppCreator = <T extends AppConfig = AppConfig>(
     },
     async start(): Promise<void> {
       await this.installAllModules();
-      if (this.module) this.module.install(this, modules);
+      if (this.module) await this.module.install(this, modules);
       appStartedEvent.publish(this);
+    },
+    enableShutdownEvents() {
+      listenPlatformEvents(corePlugins);
     },
   };
 };

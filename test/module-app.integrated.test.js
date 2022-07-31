@@ -89,4 +89,51 @@ describe("App & Module integrated testing", () => {
     await app.start();
     assert.strictEqual(count, 1);
   });
+
+  it("create a module with async onModuleInstalled listener", async () => {
+    let res = 0;
+    let date = new Date().getTime();
+    class Provider {
+      async onModuleInstalled() {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            res = 1;
+            resolve();
+          }, 1200);
+        });
+      }
+    }
+    const secondProvider = () => {
+      this.onModuleInstalled = () => {
+        date = new Date().getTime() - date;
+      };
+    };
+    const module = createModule("test", {
+      providers: [Provider],
+    });
+    const mainModule = createModule("main", {
+      imports: [module],
+      providers: [secondProvider],
+    });
+    const app = createApp(mainModule);
+    await app.start();
+    assert.strictEqual(module.installed, true);
+    assert.strictEqual(res, 1);
+    assert.strictEqual(date > 1000, true);
+  });
+
+  it("create a module with use onAppStarted event in provider", async () => {
+    let res = 1;
+    class Provider {
+      onAppStarted() {
+        res = 3;
+      }
+    }
+    const module = createModule("test", {
+      providers: [Provider],
+    });
+    const app = createApp(module);
+    await app.start();
+    assert.strictEqual(res, 3);
+  });
 });

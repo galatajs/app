@@ -3,3 +3,4 @@ import { createEvent } from "@istanbul/events";
 
 export const appCreatedEvent = createEvent<boolean>("appCreated");
 export const appStartedEvent = createEvent<App>("appStarted");
+export const appFinishedEvent = createEvent<string>("appFinished");

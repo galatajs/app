@@ -8,9 +8,14 @@ import {
   ModuleRegisterer,
 } from "../types/module.type";
 import { App } from "../types/app.type";
-import { appStartedEvent } from "../events/app.events";
+import { appFinishedEvent, appStartedEvent } from "../events/app.events";
 import { Util } from "../util/Util";
 import { isConstructor } from "../types/util.type";
+import {
+  isOnAppFinished,
+  isOnAppStarted,
+  isOnModuleInstalled,
+} from "../events/module.events";
 
 export const createModule: ModuleCreator = (
   name: string,
@@ -40,15 +45,24 @@ export const createModule: ModuleCreator = (
     });
   };
 
+  const checkEvents = async (module: any): Promise<void> => {
+    if (isOnModuleInstalled(module)) {
+      await module.onModuleInstalled();
+    }
+    if (isOnAppStarted(module)) {
+      appStartedEvent.addListener(module.onAppStarted);
+    }
+    if (isOnAppFinished(module)) {
+      appFinishedEvent.addListener(module.onAppFinished);
+    }
+  };
+
   return {
     name: name,
     dependencies: _dependencies,
     exports: new Map<string, any>(),
     installed: false,
-    onAppStarted: (hook: (app: App) => void) => {
-      appStartedEvent.addListener(hook);
-    },
-    install(app: App, modules: Map<string, Module>) {
+    async install(app: App, modules: Map<string, Module>) {
       installAllRegisters();
       if (!this.installed) {
         this.installed = true;
@@ -75,6 +89,7 @@ export const createModule: ModuleCreator = (
           } else {
             _value = creator(_providers);
           }
+          await checkEvents(_value);
           _key = Util.toCamelCase(_key);
           _providers[_key] = _value;
           if (exports.includes(_key)) {
@@ -87,7 +102,7 @@ export const createModule: ModuleCreator = (
         }
       }
       for (const dependency of this.dependencies.values()) {
-        dependency.install(app, modules);
+        await dependency.install(app, modules);
       }
     },
   };
