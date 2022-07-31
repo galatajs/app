@@ -4,7 +4,10 @@ export type CorePluginCreator = {
   build(): CorePlugin;
 };
 
-export type OnStartedListener = (plugin: CorePlugin) => void;
+export type OnStartedListener = (
+  plugin: CorePlugin,
+  providers?: Map<string, any>
+) => void;
 
 export interface CorePlugin {
   name: string;
