@@ -4,6 +4,8 @@ export type CorePluginCreator = {
   build(): CorePlugin;
 };
 
+export type OnStartedListener = (plugin: CorePlugin) => void;
+
 export interface CorePlugin {
   name: string;
   version: string;
@@ -12,6 +14,7 @@ export interface CorePlugin {
     app: App,
     corePlugins: Map<string, CorePlugin>
   ) => void | Promise<void>;
+  onStarted?: (hook: OnStartedListener) => void;
 }
 
 export type CreateCorePluginParams = {

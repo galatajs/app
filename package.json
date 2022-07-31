@@ -1,10 +1,11 @@
 {
   "name": "@istanbul/app",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "App package of istanbul framework",
   "homepage": "https://github.com/istanbulnode/app#readme",
   "keywords": [
     "istanbul",
+    "istanbuljs",
     "app",
     "framework",
     "root"
@@ -28,9 +29,10 @@
     "dist/**/*"
   ],
   "scripts": {
-    "test": "yarn build && node --test ./tests",
+    "test": "node --no-warnings --test",
     "clear": "del-cli ./dist/*",
-    "build": "npm run clear && tsc"
+    "build": "npm run clear && tsc",
+    "production": "npm run build && npm run test"
   },
   "dependencies": {
     "@istanbul/core": "^0.0.7",
