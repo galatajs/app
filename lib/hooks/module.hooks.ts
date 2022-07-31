@@ -70,11 +70,12 @@ export const createModule: ModuleCreator = (
       if (!this.installed) {
         this.installed = true;
         const _providers: ModuleProviderParams = {};
-        this.dependencies.forEach((dependency) => {
+        for (const dependency of this.dependencies.values()) {
+          if (!dependency.installed) await dependency.install(app, modules);
           for (const [key, value] of dependency.exports.entries()) {
             _providers[Util.toCamelCase(key)] = value;
           }
-        });
+        }
         for (const key of registers.keys()) {
           const injected = app.store.inject(key, true);
           if (injected) {
