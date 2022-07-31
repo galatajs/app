@@ -136,4 +136,22 @@ describe("App & Module integrated testing", () => {
     await app.start();
     assert.strictEqual(res, 3);
   });
+
+  it("create a module with depend a provider and use onModuleInstalled event", async () => {
+    const params = {
+      name: "test",
+    };
+    let res = 1;
+    class Provider {
+      onModuleInstalled(params) {
+        res = params.options.name;
+      }
+    }
+    const module = createModule("test", {
+      providers: [{ name: "options", value: params }, Provider],
+    });
+    const app = createApp(module);
+    await app.start();
+    assert.strictEqual(res, "test");
+  });
 });

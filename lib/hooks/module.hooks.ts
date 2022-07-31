@@ -45,9 +45,12 @@ export const createModule: ModuleCreator = (
     });
   };
 
-  const checkEvents = async (module: any): Promise<void> => {
+  const checkEvents = async (
+    module: any,
+    providers: ModuleProviderParams
+  ): Promise<void> => {
     if (isOnModuleInstalled(module)) {
-      await module.onModuleInstalled();
+      await module.onModuleInstalled(providers);
     }
     if (isOnAppStarted(module)) {
       appStartedEvent.addListener(module.onAppStarted);
@@ -89,7 +92,7 @@ export const createModule: ModuleCreator = (
           } else {
             _value = creator(_providers);
           }
-          await checkEvents(_value);
+          await checkEvents(_value, _providers);
           _key = Util.toCamelCase(_key);
           _providers[_key] = _value;
           if (exports.includes(_key)) {

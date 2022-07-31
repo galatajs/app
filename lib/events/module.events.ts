@@ -1,5 +1,7 @@
+import { ModuleProviderParams } from "../types/module.type";
+
 export interface OnModuleInstalled {
-  onModuleInstalled(): void | Promise<void>;
+  onModuleInstalled(providers: ModuleProviderParams): void | Promise<void>;
 }
 
 export interface OnAppStarted {

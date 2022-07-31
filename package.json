@@ -1,6 +1,6 @@
 {
   "name": "@istanbul/app",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "App package of istanbul framework",
   "homepage": "https://github.com/istanbulnode/app#readme",
   "keywords": [
