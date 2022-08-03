@@ -18,6 +18,7 @@ export interface CorePlugin {
     corePlugins: Map<string, CorePlugin>
   ) => void | Promise<void>;
   onStarted?: (hook: OnStartedListener) => void;
+  close?(): void;
 }
 
 export type CreateCorePluginParams = {

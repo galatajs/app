@@ -102,4 +102,26 @@ describe("App & Plugin integrated testing", () => {
     await app.start();
     assert.strictEqual(res, 2);
   });
+
+  it("create a closeable core plugin and close app", async () => {
+    let installed = false;
+    let finished = false;
+    const module1 = {
+      name: "testing",
+      version: "0.0.1",
+      close() {
+        finished = true;
+      },
+      install() {
+        installed = true;
+      },
+    };
+    const app = createApp();
+    app.register(module1);
+    await app.start();
+    assert.strictEqual(installed, true);
+    assert.strictEqual(finished, false);
+    app.close();
+    assert.strictEqual(finished, true);
+  });
 });

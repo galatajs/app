@@ -2,9 +2,13 @@ import { createInjector } from "@istanbul/inject";
 import { Module } from "../types/module.type";
 import { App, AppCreator } from "../types/app.type";
 import { AppConfig } from "../config";
-import { CorePlugin, CorePluginCreator, Plugin } from "../plugins";
+import { CorePlugin, CorePluginCreator, isCloseable, Plugin } from "../plugins";
 import { warn } from "../warning/warning";
-import { appCreatedEvent, appStartedEvent } from "../events/app.events";
+import {
+  appCreatedEvent,
+  appFinishedEvent,
+  appStartedEvent,
+} from "../events/app.events";
 import { isPromise } from "util/types";
 import { isConstructor, isPluginCreator } from "../types/util.type";
 import { listenPlatformEvents } from "./events.hooks";
@@ -53,6 +57,9 @@ export const createApp: AppCreator = <T extends AppConfig = AppConfig>(
           warn(`Plugin ${instance.name} is already registered`);
       } else {
         corePlugins.set(instance.name, instance);
+        if (isCloseable(instance)) {
+          appFinishedEvent.addListener(instance.close);
+        }
       }
       return this;
     },
@@ -75,6 +82,9 @@ export const createApp: AppCreator = <T extends AppConfig = AppConfig>(
       await this.installAllModules();
       if (this.module) await this.module.install(this, modules);
       appStartedEvent.publish(this);
+    },
+    close(): void {
+      appFinishedEvent.publish("");
     },
     enableShutdownEvents() {
       listenPlatformEvents(corePlugins);
