@@ -101,9 +101,9 @@ export const createModule: ModuleCreator = (
           _providers[_key] = _value;
           if (exports.includes(_key)) {
             this.exports.set(_key, _value);
-          }
-          if (this.global) {
-            globalProviders[_key] = _value;
+            if (this.global) {
+              globalProviders[_key] = _value;
+            }
           }
         }
         name = Util.toCamelCase(name);
