@@ -17,6 +17,8 @@ import {
   isOnModuleInstalled,
 } from "../events/module.events";
 
+const globalProviders: ModuleProviderParams = {};
+
 export const createModule: ModuleCreator = (
   name: string,
   params: ModuleParams = {}
@@ -65,11 +67,12 @@ export const createModule: ModuleCreator = (
     dependencies: _dependencies,
     exports: new Map<string, any>(),
     installed: false,
+    global: params.global ?? false,
     async install(app: App, modules: Map<string, Module>) {
       installAllRegisters();
       if (!this.installed) {
         this.installed = true;
-        const _providers: ModuleProviderParams = {};
+        const _providers: ModuleProviderParams = { ...globalProviders };
         for (const dependency of this.dependencies.values()) {
           if (!dependency.installed) await dependency.install(app, modules);
           for (const [key, value] of dependency.exports.entries()) {
@@ -98,6 +101,9 @@ export const createModule: ModuleCreator = (
           _providers[_key] = _value;
           if (exports.includes(_key)) {
             this.exports.set(_key, _value);
+          }
+          if (this.global) {
+            globalProviders[_key] = _value;
           }
         }
         name = Util.toCamelCase(name);

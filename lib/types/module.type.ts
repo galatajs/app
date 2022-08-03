@@ -7,6 +7,7 @@ export interface Module {
   exports: Map<string, ModuleProvider>;
   installed: boolean;
   install: (app: App, modules: Map<string, Module>) => void | Promise<void>;
+  global: boolean;
 }
 
 export type ModuleProviderFunction = (params: ModuleProviderParams) => any;
@@ -30,6 +31,7 @@ export type ModuleParams = {
   imports?: Array<Module | ModuleRegisterer>;
   providers?: Array<ModuleProvider>;
   exports?: Array<ModuleProvider>;
+  global?: boolean;
 };
 
 export type ModuleProviderParams = {
