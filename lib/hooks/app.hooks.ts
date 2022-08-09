@@ -67,11 +67,12 @@ export const createApp: AppCreator = <T extends AppConfig = AppConfig>(
       const stack: Array<Promise<any>> = [];
       for (const plugin of corePlugins.values()) {
         if (plugin.forceWait) {
-          await plugin.install(this, corePlugins);
+          await plugin.install(this, corePlugins, modules);
         } else {
           const install: Promise<void> | void = plugin.install(
             this,
-            corePlugins
+            corePlugins,
+            modules
           );
           if (isPromise(install)) stack.push(install);
         }

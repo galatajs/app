@@ -1,4 +1,5 @@
 import { App } from "../types/app.type";
+import { Module } from "../types/module.type";
 
 export type CorePluginCreator = {
   build(): CorePlugin;
@@ -15,7 +16,8 @@ export interface CorePlugin {
   forceWait?: boolean;
   install: (
     app: App,
-    corePlugins: Map<string, CorePlugin>
+    corePlugins: Map<string, CorePlugin>,
+    modules: Map<string, Module>
   ) => void | Promise<void>;
   onStarted?: (hook: OnStartedListener) => void;
   close?(): void;
