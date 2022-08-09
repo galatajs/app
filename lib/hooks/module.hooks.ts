@@ -65,6 +65,7 @@ export const createModule: ModuleCreator = (
   return {
     name: name,
     dependencies: _dependencies,
+    providers: {},
     exports: new Map<string, any>(),
     installed: false,
     global: params.global ?? false,
@@ -110,6 +111,7 @@ export const createModule: ModuleCreator = (
         if (!modules.has(name)) {
           modules.set(name, this);
         }
+        this.providers = _providers;
       }
       for (const dependency of this.dependencies.values()) {
         await dependency.install(app, modules);

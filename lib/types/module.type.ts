@@ -4,11 +4,16 @@ import { ConstructorType } from "./util.type";
 export interface Module {
   name: string;
   dependencies: Map<string, Module>;
+  providers: ModuleProviders;
   exports: Map<string, ModuleProvider>;
   installed: boolean;
   install: (app: App, modules: Map<string, Module>) => void | Promise<void>;
   global: boolean;
 }
+
+export type ModuleProviders = {
+  [key: string]: any;
+};
 
 export type ModuleProviderFunction = (params: ModuleProviderParams) => any;
 export type ModuleProviderClass = ConstructorType<any, any>;
