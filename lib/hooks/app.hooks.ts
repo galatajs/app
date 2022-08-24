@@ -16,12 +16,34 @@ import { isOnAppStarted } from "../events/module.events";
 
 const plugins = new Set<Plugin>();
 const corePlugins = new Map<string, CorePlugin>();
+const lastCorePlugins = new Map<string, CorePlugin>();
 const modules: Map<string, Module> = new Map();
 
 export const createApp: AppCreator = <T extends AppConfig = AppConfig>(
   rootModule?: Module
 ): App<T> => {
   appCreatedEvent.publish(true);
+
+  const installCorePlugins = async (
+    corePlugins: Map<string, CorePlugin>,
+    instance: App
+  ): Promise<void> => {
+    const stack: Array<Promise<any>> = [];
+    for (const plugin of corePlugins.values()) {
+      if (plugin.forceWait) {
+        await plugin.install(instance, corePlugins, modules);
+      } else {
+        const install: Promise<void> | void = plugin.install(
+          instance,
+          corePlugins,
+          modules
+        );
+        if (isPromise(install)) stack.push(install);
+      }
+    }
+    await Promise.all(stack);
+  };
+
   return {
     version: __VERSION__,
     module: rootModule,
@@ -56,32 +78,21 @@ export const createApp: AppCreator = <T extends AppConfig = AppConfig>(
         !this.config.production &&
           warn(`Plugin ${instance.name} is already registered`);
       } else {
-        corePlugins.set(instance.name, instance);
+        if (instance.loadLast) {
+          lastCorePlugins.set(instance.name, instance);
+        } else {
+          corePlugins.set(instance.name, instance);
+        }
         if (isCloseable(instance)) {
           appFinishedEvent.addListener(instance.close);
         }
       }
       return this;
     },
-    async installAllModules(): Promise<void> {
-      const stack: Array<Promise<any>> = [];
-      for (const plugin of corePlugins.values()) {
-        if (plugin.forceWait) {
-          await plugin.install(this, corePlugins, modules);
-        } else {
-          const install: Promise<void> | void = plugin.install(
-            this,
-            corePlugins,
-            modules
-          );
-          if (isPromise(install)) stack.push(install);
-        }
-      }
-      await Promise.all(stack);
-    },
     async start(): Promise<void> {
-      await this.installAllModules();
+      await installCorePlugins(corePlugins, this);
       if (this.module) await this.module.install(this, modules);
+      await installCorePlugins(lastCorePlugins, this);
       appStartedEvent.publish(this);
     },
     close(): void {

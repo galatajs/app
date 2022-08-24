@@ -14,6 +14,7 @@ export interface CorePlugin {
   name: string;
   version: string;
   forceWait?: boolean;
+  loadLast?: boolean;
   install: (
     app: App,
     corePlugins: Map<string, CorePlugin>,
