@@ -12,7 +12,7 @@ import {
 import { isPromise } from "util/types";
 import { isConstructor, isPluginCreator } from "../types/util.type";
 import { listenPlatformEvents } from "./events.hooks";
-import { isOnAppStarted } from "../events/module.events";
+import { isOnAppStarted, OnAppStarted } from "../events/module.events";
 
 const plugins = new Set<Plugin>();
 const corePlugins = new Map<string, CorePlugin>();
@@ -100,6 +100,9 @@ export const createApp: AppCreator = <T extends AppConfig = AppConfig>(
     },
     enableShutdownEvents() {
       listenPlatformEvents(corePlugins);
+    },
+    onStarted(hook: () => void) {
+      appStartedEvent.addListener(hook);
     },
   };
 };

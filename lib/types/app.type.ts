@@ -12,6 +12,7 @@ export interface App<T extends AppConfig = AppConfig> {
   register(plugin: CorePlugin | CorePluginCreator, ...options: any[]): this;
   start(): Promise<void>;
   close(): void;
+  onStarted(hook: () => void): void;
   enableShutdownEvents(): void;
 }
 
