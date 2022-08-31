@@ -1,6 +1,6 @@
 {
   "name": "@istanbul/app",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "App package of istanbul framework",
   "homepage": "https://github.com/istanbulnode/app#readme",
   "keywords": [
@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@istanbul/core": "^0.0.7",
-    "@istanbul/events": "^0.0.4",
+    "@istanbul/events": "^0.0.6",
     "@istanbul/inject": "^0.0.4"
   },
   "devDependencies": {
