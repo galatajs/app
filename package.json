@@ -1,11 +1,10 @@
 {
-  "name": "@istanbul/app",
-  "version": "0.0.33",
-  "description": "App package of istanbul framework",
-  "homepage": "https://github.com/istanbulnode/app#readme",
+  "name": "@galatajs/app",
+  "version": "0.1.1",
+  "description": "App package of galatajs framework",
+  "homepage": "https://github.com/galatajs/app#readme",
   "keywords": [
-    "istanbul",
-    "istanbuljs",
+    "galatajs",
     "app",
     "framework",
     "root"
@@ -14,10 +13,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/istanbulnode/app.git"
+    "url": "git+https://github.com/galatajs/app.git"
   },
   "bugs": {
-    "url": "https://github.com/istanbulnode/app/issues"
+    "url": "https://github.com/galatajs/app/issues"
   },
   "directories": {
     "lib": "lib",
@@ -35,9 +34,9 @@
     "production": "npm run build && npm run test"
   },
   "dependencies": {
-    "@istanbul/core": "^0.0.7",
-    "@istanbul/events": "^0.0.7",
-    "@istanbul/inject": "^0.0.4"
+    "@galatajs/core": "^0.1.1",
+    "@galatajs/events": "^0.1.1",
+    "@galatajs/inject": "^0.1.1"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

@@ -1,5 +1,5 @@
 /**
- * istanbul @app
+ * galatajs @app
  * Copyright(c) 2022 Sami Salih İBRAHİMBAŞ
  * MIT Licensed
  */

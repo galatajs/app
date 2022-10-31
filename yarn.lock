@@ -2,20 +2,20 @@
 # yarn lockfile v1
 
 
-"@istanbul/core@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@istanbul/core/-/core-0.0.7.tgz#298450fa2a636d5815c7a8aba27a86c726b50604"
-  integrity sha512-d5moy/XwEhcXjtxgxNM6IrqlbLb5uExU30tDAEPXAZiNyKt6XAfaSCUiMFxp9OKV/LaUNb47uIDZJXmYYbz9Cw==
+"@galatajs/core@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@galatajs/core/-/core-0.1.1.tgz#77a79f78e6ff8330cd420cd22bb12ed89571c310"
+  integrity sha512-bSiLT9NQuMpVkXvSRtFkWip7wMGpnXVzPcWzEAbgsy6kRELKeFXBis2CgzO0vMtk7B/ucMP8vnVqHwtbAQUY3g==
 
-"@istanbul/events@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@istanbul/events/-/events-0.0.4.tgz#a388999ddec7e340741116e5bf145603176e7013"
-  integrity sha512-B/ebDpFNvb62SnAX3m2ijVWSS3Fulp74jF2SJza0KGyjDUlPjximT2iUjBbSHZeEPWMcZ7NTCjidEctFL9oIKQ==
+"@galatajs/events@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@galatajs/events/-/events-0.1.1.tgz#4a21c0c37b80a0cfc895b0f4ead6e4e696547c6a"
+  integrity sha512-ot/PrNfL/8i7cozEtExI40h2v4HLLRo75ET2tTd4ASABZaHQ9Q/xz/gvh0zmlQxMLMFU+F64ghOvN49/TB6+1g==
 
-"@istanbul/inject@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@istanbul/inject/-/inject-0.0.4.tgz#d93280deb30e08861b20e0672e5b3be5d045e0b6"
-  integrity sha512-pyRnssamRMoEQedpxXT7jSOIRLPfeeb5S4SFFvCltNMmAWzQIFCnZGCVOLYyisRq+x/WZJw7VSJtli6iMmUFzQ==
+"@galatajs/inject@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@galatajs/inject/-/inject-0.1.1.tgz#61d0a27b72092b528f958d9a6a4d01fc87bd8b7f"
+  integrity sha512-ESaK9q4o1PPTdbuhRW1Bjbm/pKxgJa+iGO/eQ6JHnkrFICCaTDh+1lL/5ZhmxUdqw1DvVxYn/QL/UbkAu2MbsQ==
 
 "@types/node@^18.0.0":
   version "18.0.0"

@@ -1,20 +1,17 @@
-
-## !! Not ready for production, experimental
-
 <p align="center">
 <br>
 <img src="https://avatars.githubusercontent.com/u/108695351?s=200&v=4" width="128" height="128">
 </p>
-<h3 align="center">@istanbul/app</h3>
+<h3 align="center">@galatajs/app</h3>
 <p align="center">
-  Main package of <code>istanbul</code> framework. 
+  Main package of <code>galatajs</code> framework. 
 </p>
 
 ### What Is It?
 
 This package is pretty flexible and goes wherever you pull it. CLI, Rest, Graphql, Websocket, Microservice or any.
 
-In shortly, it is the package that defines ``istanbul`` framework.
+In shortly, it is the package that defines ``galatajs`` framework.
 
 With this package you can currently do the following:
 
@@ -26,20 +23,20 @@ With this package you can currently do the following:
 ### Installation
 
 ```sh
-npm install @istanbul/app
+npm install @galatajs/app
 ```
 
 > or with yarn
 >
 > ```
-> yarn add @istanbul/app
+> yarn add @galatajs/app
 > ```
 
 ### Basic Usage
 
 ```typescript
-import {createApp, App} from '@istanbul/app';
-import {someCorePlugin} from "@istanbul/some-core-plugin"
+import {createApp, App} from '@galatajs/app';
+import {someCorePlugin} from "@galatajs/some-core-plugin"
 import {somePlugin} from "some-plugin"
 
 const app = createApp<App>();
@@ -50,17 +47,17 @@ app.start();
 
 ### Module System Usage
 
-`istanbul` supports module-based system such as Angular and NestJS. -However, it does not make mandatory, it behaves as you wish, friendly ;)-
+`galatajs` supports module-based system such as Angular and NestJS. -However, it does not make mandatory, it behaves as you wish, friendly ;)-
 
 If you want to use the module-based system, which is the solution we recommend, although not mandatory, you can follow the steps below.
 
 #### create a main module
 
-`istanbul` processes module-based system such as NestJS and Angular with the inductive method in the background. So it needs the main module for the starting point.
+`galatajs` processes module-based system such as NestJS and Angular with the inductive method in the background. So it needs the main module for the starting point.
 
 ```typescript
 // src/main.ts
-import { createModule } from "@istanbul/app";
+import { createModule } from "@galatajs/app";
 
 export const mainModule = createModule("mainModule", {
     imports: [
@@ -71,10 +68,10 @@ export const mainModule = createModule("mainModule", {
 
 #### Register main module to app
 
-We have to do this for your `istanbul` project to recognize the main module. Just like you need the internet to google something.
+We have to do this for your `galatajs` project to recognize the main module. Just like you need the internet to google something.
 
 ```typescript
-import { createApp } from "@istanbul/app";
+import { createApp } from "@galatajs/app";
 import { mainModule } from "./src/main";
 
 const app = createApp(mainModule);
@@ -101,7 +98,7 @@ export class ProductService {
 
 ```typescript
 // src/modules/product/product.module.ts
-import { createModule } from "@istanbul/app";
+import { createModule } from "@galatajs/app";
 import { ProductService } from "./product.service";
 
 export const productModule = createModule('product', {
@@ -116,7 +113,7 @@ A little info while yo're here.
 >
 > export exists for any provider in this module to be used in an external module. For example, if you want to use `ProductService` in an external module, you should provide and export it.
 > 
-> `istanbul` itself manages the singleton structure for you!
+> `galatajs` itself manages the singleton structure for you!
 
 #### Register your module
 
@@ -124,7 +121,7 @@ Now that you've created your module, you can register it to the app.
 
 ```typescript
 // src/main.ts
-import { createModule } from "@istanbul/app";
+import { createModule } from "@galatajs/app";
 import { productModule } from "./src/modules/product";
 
 export const mainModule = createModule("mainModule", {
@@ -138,12 +135,12 @@ that's it!
 
 ### Create your own plugin
 
-You can develop your own plugins with the ``istanbul framework``. Whether you use it or present it te people, the `istanbul framework` offers a high degree of customizability.
+You can develop your own plugins with the ``galatajs framework``. Whether you use it or present it te people, the `galatajs framework` offers a high degree of customizability.
 
 create plugin:
 
 ```typescript
-import {createPlugin} from "@istanbul/app";
+import {createPlugin} from "@galatajs/app";
 
 export const somePlugin = createPlugin({
     name: "somePlugin",
@@ -158,7 +155,7 @@ somePlugin.onAppStarted((app) => {
 ```
 
 ```typescript
-import {createApp} from "@istanbul/app";
+import {createApp} from "@galatajs/app";
 import {somePlugin} from "some-plugin"
 
 const app = createApp();

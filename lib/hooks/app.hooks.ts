@@ -1,4 +1,4 @@
-import { createInjector } from "@istanbul/inject";
+import { createInjector } from "@galatajs/inject";
 import { Module } from "../types/module.type";
 import { App, AppCreator } from "../types/app.type";
 import { AppConfig } from "../config";
@@ -12,7 +12,7 @@ import {
 import { isPromise } from "util/types";
 import { isConstructor, isPluginCreator } from "../types/util.type";
 import { listenPlatformEvents } from "./events.hooks";
-import { isOnAppStarted, OnAppStarted } from "../events/module.events";
+import { isOnAppStarted } from "../events/module.events";
 
 const plugins = new Set<Plugin>();
 const corePlugins = new Map<string, CorePlugin>();

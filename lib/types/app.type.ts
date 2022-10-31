@@ -1,4 +1,4 @@
-import { Injector } from "@istanbul/inject";
+import { Injector } from "@galatajs/inject";
 import { AppConfig } from "../config";
 import { CorePlugin, CorePluginCreator, Plugin } from "../plugins";
 import { Module } from "./module.type";
