@@ -1,11 +1,9 @@
-const { describe, it } = require("node:test");
-const assert = require("node:assert");
-const { createModule } = require("../dist");
+import { createModule } from "../lib";
 
 describe("Module testing", () => {
   it("createModule should return a Module", () => {
     const module = createModule("test");
-    assert.strictEqual("name" in module, true);
+    expect("name" in module).toBe(true);
   });
 
   it("create child module and add to parent dependency", () => {
@@ -13,8 +11,8 @@ describe("Module testing", () => {
     const rootModule = createModule("module", {
       imports: [childModule],
     });
-    assert.strictEqual(rootModule.dependencies.size, 1);
-    assert.strictEqual(rootModule.dependencies.get("child"), childModule);
+    expect(rootModule.dependencies.size).toBe(1);
+    expect(rootModule.dependencies.get("child")).toBe(childModule);
   });
 
   it("create one child modules, add to two parent dependency and check install count", () => {
@@ -27,17 +25,17 @@ describe("Module testing", () => {
     const rootModule2 = createModule("module2", {
       imports: [childModule],
     });
-    assert.strictEqual(rootModule.dependencies.size, 1);
-    assert.strictEqual(rootModule2.dependencies.size, 1);
-    assert.strictEqual(rootModule.dependencies.get("child"), childModule);
-    assert.strictEqual(rootModule2.dependencies.get("child"), childModule);
-    assert.strictEqual(subModule.installed, false);
+    expect(rootModule.dependencies.size).toBe(1);
+    expect(rootModule2.dependencies.size).toBe(1);
+    expect(rootModule.dependencies.get("child")).toBe(childModule);
+    expect(rootModule2.dependencies.get("child")).toBe(childModule);
+    expect(subModule.installed).toBe(false);
   });
 
   it("create product module with providers and check install count", () => {
     const productModule = createModule("product", {
       providers: [{ name: "test", value: "test" }],
     });
-    assert.strictEqual(productModule.installed, false);
+    expect(productModule.installed).toBe(false);
   });
 });
