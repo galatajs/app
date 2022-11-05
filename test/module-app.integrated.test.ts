@@ -1,4 +1,10 @@
-import { createApp, createModule, Module, ModuleRegisterer } from "../lib";
+import {
+  createApp,
+  createModule,
+  Module,
+  ModuleRegisterer,
+  OnModuleInstalled,
+} from "../lib";
 
 describe("App & Module integrated testing", () => {
   it("create a module and install it", async () => {
@@ -86,5 +92,32 @@ describe("App & Module integrated testing", () => {
     const app = createApp(productModule);
     await app.start();
     expect(count).toBe(1);
+  });
+
+  it("create a module with providers and check providers this keyword is binding status", async () => {
+    let text = "";
+    class Test {
+      test = "test";
+    }
+    class TestService implements OnModuleInstalled {
+      private test: Test;
+      constructor(params: { test: Test }) {
+        this.test = params.test;
+      }
+
+      onModuleInstalled() {
+        text = this.getTest().test;
+      }
+
+      getTest() {
+        return this.test;
+      }
+    }
+    const testModule = createModule("test", {
+      providers: [Test, TestService],
+    });
+    const app = createApp(testModule);
+    await app.start();
+    expect(text).toBe("test");
   });
 });
